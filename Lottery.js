@@ -1,6 +1,6 @@
 // Moralis connection
-const serverUrl = "SERVER_URL_HERE";   
-const appId =  "MORALIS_APP_ID_HERE";              
+const serverUrl = "https://evrbtmtyqx7s.usemoralis.com:2053/server";     // SERVER_URL_HERE
+const appId =  "8gq0q64cjSufFnBitiZboFEIXs4Hb06U1MpB04qn";               // MORALIS_APP_ID_HERE
 Moralis.start({ serverUrl, appId });
 
 // Login user
@@ -53,7 +53,7 @@ $btnLogOut.addEventListener('click', logOut);
 const $buttonBuyCrypto = document.getElementById("btn-buy-crypto");
 $buttonBuyCrypto.addEventListener('click', buyCrypto);
 
-const smartContractAddress = "0x0000000..."
+const smartContractAddress = "0x00000000219ab540356cbb839cbe05303d7705fa"
 const ticketPrice = 0.05;     // ETH
 
 const maxParticipants = 4;
@@ -74,13 +74,8 @@ function addParticipant(){
     if(user){
         if(pseudonymValid){
 
-            let newParticipant = {
-                                    'address' :   userAddress,
-                                    'pseudonym' : pseudonym
-                                 }
-
             if(participants.length < maxParticipants){
-                sendEthToContract();  
+                sendEthToContract(userAddress);  
             }else{
                 alert("Subscriptions ended");
             }
@@ -119,7 +114,7 @@ async function buyCrypto() {
     }
 }
 
-async function sendEthToContract(){
+async function sendEthToContract(_userAddress){
     
     const options = { 
                         type: "native",  
@@ -128,6 +123,11 @@ async function sendEthToContract(){
                     };
      
     try{
+
+        let newParticipant = {
+            'address' :   _userAddress,
+            'pseudonym' : pseudonym
+         }
 
         //let result = await Moralis.transfer(options);  
         participants.push(newParticipant);
