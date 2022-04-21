@@ -1,6 +1,6 @@
 // Moralis connection
-const serverUrl = "SERVER_URL_HERE";     
-const appId =  "MORALIS_APP_ID_HERE";              
+const serverUrl = "https://evrbtmtyqx7s.usemoralis.com:2053/server";     // SERVER_URL_HERE
+const appId =  "8gq0q64cjSufFnBitiZboFEIXs4Hb06U1MpB04qn";               // MORALIS_APP_ID_HERE
 Moralis.start({ serverUrl, appId });
 
 // Login user
@@ -19,7 +19,12 @@ async function login() {
                .catch(function(error) {
                     $loggedUserAddress.innerHTML = `${error}`;
                });
+    }else{
+        alert("Already logged")
+        let addr = user.get("ethAddress");
+        $loggedUserAddress.innerHTML = `Logged as: ${addr}`;
     }
+
 }
 
 // Logout user 
@@ -48,7 +53,7 @@ $btnLogOut.addEventListener('click', logOut);
 const $buttonBuyCrypto = document.getElementById("btn-buy-crypto");
 $buttonBuyCrypto.addEventListener('click', buyCrypto);
 
-const smartContractAddress = "0x000...."
+const smartContractAddress = "0x00000000219ab540356cbb839cbe05303d7705fa"
 const ticketPrice = 0.05;     // ETH
 
 const maxParticipants = 4;
@@ -56,6 +61,7 @@ const maxWinners = 2;
 
 const participants = [];
 const winners = [];
+
 let pseudonym;
 
 function addParticipant(){
@@ -64,9 +70,8 @@ function addParticipant(){
     const userAddress = user.get("ethAddress");
 
     let pseudonymValid = validatePseudonym(pseudonym);
-    let userLogged = isUserConnected(user);
 
-    if(userLogged){
+    if(user){
         if(pseudonymValid){
 
             let newParticipant = {
@@ -102,7 +107,16 @@ function displayWinners(){
 
 /** fiat on ramp buy crypto */
 async function buyCrypto() {
-    // TODO    
+
+    let user = Moralis.User.current();
+
+    if(user){
+        let userAddress = user.get("ethAddress");
+        const cryptoBuyURL = "https://global.transak.com/?apiKey=25ac1309-a49b-4411-b20e-5e56c61a5b1c&hostURL=https%3A%2F%2Fmetamask.io&cryptoCurrencyList=ETH%2CUSDT%2CUSDC%2CDAI&defaultCryptoCurrency=ETH&networks=ethereum&walletAddress="+userAddress;
+        window.location.href = cryptoBuyURL;
+    }else{
+        alert("Need authentication")
+    }
 }
 
 async function sendEthToContract(){
@@ -115,7 +129,7 @@ async function sendEthToContract(){
      
     try{
 
-        let result = await Moralis.transfer(options);  
+        //let result = await Moralis.transfer(options);  
         participants.push(newParticipant);
         $numberOfParticipants.innerHTML = `<p>Participants: ${participants.length}</p>
                                            <p>Remaining: ${maxParticipants - participants.length}</p>`;
@@ -148,11 +162,3 @@ function validatePseudonym(_pseudonym){
     return valid;
 }
 
-/* Check if user is connected */
-function isUserConnected(_user) {
-    if (_user) {
-        return true;
-    }else{
-        return false;
-    }
-}
