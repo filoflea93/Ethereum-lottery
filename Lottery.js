@@ -129,7 +129,7 @@ async function sendEthToContract(_userAddress){
             'pseudonym' : pseudonym
          }
 
-        //let result = await Moralis.transfer(options);  
+        let result = await Moralis.transfer(options);  
         participants.push(newParticipant);
         $numberOfParticipants.innerHTML = `<p>Participants: ${participants.length}</p>
                                            <p>Remaining: ${maxParticipants - participants.length}</p>`;
