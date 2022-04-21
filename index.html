@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereum lottery</title>
+</head>
+<body>
+    <div id="login-logout-buyCrypto-btn">
+        <button id="login">Login</button>
+        <button id="logout">Logout</button>
+        <button id="btn-buy-crypto">Buy Crypto</button>
+    </div>
+    <input type="text" placeholder="Pseudonym" id="pseudonym" onblur="getPseudonymContent()">
+    <button id="submit">Submit</button>
+    <div id="userAddress"></div>
+    <div id="errorBox"></div>
+    <div id="numberOfParticipants"></div>
+    <div id="winnersList"></div>
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+    <script src="Lottery.js"></script>
+</body>
+</html> 
