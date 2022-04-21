@@ -46,6 +46,7 @@ contract Lottery{
             participants.push(newParticipant);
         }else{
             drawWinners();
+            payOwner();
             payWinners();
         }
     }
@@ -83,6 +84,12 @@ contract Lottery{
 
     function getContractAddress() public view returns(address){
         return(address(this));
+    }
+
+    function payOwner() public{
+        
+        uint ownerReward = address(this).balance/5;
+        owner.transfer(ownerReward);
     }
 
 }
